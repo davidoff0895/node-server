@@ -1,4 +1,4 @@
-export default (query, requiredParams) => {
+module.exports = (query, requiredParams) => {
 
   const validate = (vQuery, vRequiredParams, kayName) => {
 

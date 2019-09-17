@@ -1,8 +1,8 @@
-import app from './server';
-import commonConfig from './config/common.conf';
+const server = require('./server');
+const commonConfig = require('./config/common.conf');
 const PORT = commonConfig.PORT;
 
-app.listen(PORT, (err) => {
+server.listen(PORT, (err) => {
   if (err) {
     return console.error(err);
   }

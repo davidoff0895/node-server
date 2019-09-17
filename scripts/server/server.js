@@ -1,27 +1,43 @@
-import express from 'express';
-import mailSender from './mails/email-server';
-import bundleRenderer from './bundleRenderer';
-import pdfGenerator from './pdf/pdf-generator';
-import missingServiceParam from './common/validation/missParam';
-import conf from './config/common.conf';
-import configDevServer from './config/configDevServer';
+const express = require('express');
+const mailSender = require('./mails/email-server');
+const bundleRenderer = require('./bundleRenderer');
+const pdfGenerator = require('./pdf/pdf-generator');
+const missingServiceParam = require('./common/validation/missParam');
+const conf = require('./config/common.conf');
+const configDevServer = require('./config/configDevServer');
 
-const app = express();
-app.use(express.json());
+const server = express();
+server.use(express.json());
 
 let renderer = null;
-configDevServer(app, ({bundle}) => {
+configDevServer(server, ({bundle}) => {
   renderer = bundleRenderer(bundle);
 });
 
-app.post('/mails/*', (req, res) => {
+server.get('*', (req, res) => {
+  const context = { url: req.url };
+
+    renderer.renderToString(context, (err, html) => {
+      if (err) {
+        if (err.code === 404) {
+          res.status(404).end('Page not found')
+        } else {
+          res.status(500).end('Server error')
+        }
+      } else {
+        res.end(html)
+      }
+    })
+})
+
+server.post('/mail', (req, res) => {
   const query = req.body;
   validation(query, 'mail').then(async () => {
     const context = {
       from: query.from,
       to: query.to,
       subject: query.subject,
-      path: query.templateName ? `mails/${query.templateName}` : null,
+      url: req.url,
       body: query.body,
       locale: query.locale,
       attachments: query.attachments
@@ -49,14 +65,14 @@ app.post('/mails/*', (req, res) => {
   });
 });
 
-app.post('/pdf/*', async (req, res) => {
+server.post('/pdf', async (req, res) => {
   const query = req.body;
   validation(query, 'pdf').then(async () => {
 
     try {
       const context = {
-        path: 'pdf/brochure',
-        body: data
+        url: req.url,
+        body: query.body
       };
       renderer.renderToString(context, (err, html) => {
         if (err) {
@@ -90,4 +106,4 @@ const validation = (query, serviceName) => {
   })
 }
 
-export default app;
+module.exports = server;

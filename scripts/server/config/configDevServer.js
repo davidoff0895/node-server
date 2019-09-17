@@ -1,9 +1,9 @@
-import path from 'path';
-import MFS from 'memory-fs';
-import webpack from 'webpack';
-import webpackServerConfig from '../../webpack/webpack.server.config';
+const path = require('path');
+const MFS = require('memory-fs');
+const webpack = require('webpack');
+const webpackServerConfig = require('../../webpack/webpack.server.config');
 
-export default (app, onServerUpdate) => {
+module.exports = (app, onServerUpdate) => {
   const serverCompiler = webpack(webpackServerConfig);
   const mfs = new MFS();
   serverCompiler.outputFileSystem = mfs;

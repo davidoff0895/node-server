@@ -1,11 +1,7 @@
-import puppeteer from 'puppeteer';
-import path from 'path';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+const puppeteer = require('puppeteer');
+const path = require('path');
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-export default async (html) => {
+module.exports = async (html) => {
   try {
     const browser = await puppeteer.launch({
       args: [
@@ -18,7 +14,7 @@ export default async (html) => {
     await page.setContent(html);
 
     const file = await page.pdf({
-      path: path.resolve(__dirname, `file.pdf`),
+      path: path.resolve(__dirname, `/file.pdf`),
       format: 'A4',
       printBackground: true
     });

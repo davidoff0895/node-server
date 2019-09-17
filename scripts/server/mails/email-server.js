@@ -1,8 +1,8 @@
-import nodemailer from 'nodemailer';
-import emailConfig from './config';
+const nodemailer = require('nodemailer');
+const emailConfig = require('./config');
 const defaultSubject = 'Message from node server';
 
-export default async (context) => {
+module.exports = async (context) => {
   let transporter = nodemailer.createTransport(emailConfig);
 
   // verify connection configuration
