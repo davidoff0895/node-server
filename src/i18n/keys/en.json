@@ -1,0 +1,10 @@
+{
+  "mail": {
+    "unsubscribe": "Unsubscribe",
+    "header": "Node mail",
+    "mail-content": "Hi {0}. I'm mail from node server of github repository {1}"
+  },
+  "pdf": {
+    "content": "PDF for {0}"
+  }
+}

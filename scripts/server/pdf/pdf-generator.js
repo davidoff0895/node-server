@@ -13,10 +13,12 @@ module.exports = async (html) => {
 
     await page.setContent(html);
 
+    await page.addStyleTag({path: path.resolve(__dirname, 'style.css')});
+
     const file = await page.pdf({
-      path: path.resolve(__dirname, `/file.pdf`),
       format: 'A4',
-      printBackground: true
+      printBackground: true,
+      landscape: true
     });
 
     console.log('file printed');

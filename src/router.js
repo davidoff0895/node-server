@@ -7,7 +7,7 @@ export function createRouter () {
     mode: 'history',
     routes: [
       { path: '/', component: () => import('./components/home') },
-      { path: '/mail', component: () => import('./components/mail') },
+      { path: '/mail', component: () => import('./components/mail/mail') },
       { path: '/pdf', component: () => import('./components/pdf') }
     ]
   })

@@ -39,7 +39,7 @@ server.post('/mail', (req, res) => {
       subject: query.subject,
       url: req.url,
       body: query.body,
-      locale: query.locale,
+      locale: query.locale && query.locale.toLowerCase() || 'en',
       attachments: query.attachments
     };
     renderer.renderToString(context, (err, html) => {
@@ -72,7 +72,8 @@ server.post('/pdf', async (req, res) => {
     try {
       const context = {
         url: req.url,
-        body: query.body
+        body: query.body,
+        locale: query.locale && query.locale.toLowerCase() || 'en',
       };
       renderer.renderToString(context, (err, html) => {
         if (err) {
@@ -81,9 +82,7 @@ server.post('/pdf', async (req, res) => {
           return Promise.reject(err);
         }
         pdfGenerator(html).then((pdf) => {
-          res.end(JSON.stringify({
-            status: 'Printed'
-          }));
+          res.end(pdf);
         })
       })
     } catch (err) {
