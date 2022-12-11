@@ -25,7 +25,7 @@
     "@types/webpack-env": "^1.14.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs": "^0.0.1-security",
     "memory-fs": "^0.4.1",
     "nodemailer": "^6.6.1",
